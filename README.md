@@ -12,7 +12,8 @@ email; it cannot cause a wrong payment.
 
 ![Architecture: the model is called by extract, resolve and draft, never by the decision](docs/architecture_diagram.png)
 
-**Explore the runs:** open `explorer/index.html` in a browser (download the file; it is self-contained). It replays
+**Explore the runs:** [juhip.github.io/invoice-exception-agent/explorer](https://juhip.github.io/invoice-exception-agent/explorer/)
+(or open `explorer/index.html` locally; it is self-contained). It replays
 the ten graded invoices stage by stage, shows every model call, lets you move the accounts payable
 policy and watch the decisions change, and includes the LFM2.5-2.6B laptop benchmarks.
 
