@@ -1,7 +1,7 @@
 # Invoice exception agent on LFM2.5-2.6B
 
 An agent that takes one supplier-invoice exception from arrival to a resolution a person can approve,
-running entirely on a laptop with LFM2.5-2.6B, a small open-weight model. Built for the accounts-payable queue of a
+running entirely on a laptop with [Liquid AI's LFM2.5-2.6B](https://huggingface.co/LiquidAI), a small open-weight model with native tool calling. Built for the accounts-payable queue of a
 mid-market discrete manufacturer (here, the fictional Ridgeline Fabrication).
 
 **Design in one line:** the model reads, code decides. The model transcribes the messy invoice,
@@ -9,6 +9,18 @@ finds the purchase order when the invoice does not say, matches lines by meaning
 supplier email. Code checks every one of those answers, does the three-way match, applies the AP
 policy, and sets the amount to pay. A wrong model answer can cause an escalation or a template
 email; it cannot cause a wrong payment.
+
+![Architecture: the model is called by extract, resolve and draft, never by the decision](docs/architecture_diagram.png)
+
+**Explore the runs:** open `explorer/index.html` in a browser (download the file; it is self-contained). It replays
+the ten graded invoices stage by stage, shows every model call, lets you move the accounts payable
+policy and watch the decisions change, and includes the LFM2.5-2.6B laptop benchmarks.
+
+**Results:** 10 of 10 invoices resolved correctly in the latest graded run (8, then 9, then 10 across
+three full runs; the last two on a dataset rebuilt from scratch). Every failure along the way was an
+escalation, never a wrong payment. The latest run is in `docs/validation.md`, the rebuilt set's first
+run (9 of 10) in `docs/validation_run1_server_error.md`, and the explorer's Results tab lists every failure
+and its fix.
 
 ## Run it
 
@@ -57,6 +69,8 @@ Standard library only (pypdf is optional, for PDF invoices). Python 3.9 or later
 | `evals/run_evals.py` | grades every invoice; reports per-stage model behaviour; `docs/validation.md` (and `docs/validation_run1_server_error.md`, the first run on the rebuilt dataset, kept as the record of what failed) |
 | `tests/` | 22 tests against a fake model server: every decision path and every guardrail |
 | `docs/ARCHITECTURE.md` | one page: input, output and failure handling per stage |
+| `explorer/index.html` | interactive page: replay each run, the architecture, policy controls, results, model benchmarks |
+| `runs/evals/` | the latest graded run: packet, approver summary and every model call per invoice |
 
 ## Reused from earlier work
 
