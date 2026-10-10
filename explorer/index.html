@@ -461,7 +461,7 @@ function lineChart(o){
   return s+"</svg>";
 }
 /* ---------- 0. the customer ---------- */
-let COST = {inv:4000, rate:25, min:8, salary:75000, tps:30, review:2};
+let COST = {inv:4000, rate:25, min:8, salary:75000, tps:30, review:2, avg:1250};
 function renderCustomer(el){
   const avgTok = DATA.reduce((a,r)=>a+r.completionTokens,0)/DATA.length;
   const FLOW = [
@@ -498,25 +498,44 @@ function renderCustomer(el){
    <div class="ctl"><label for="s_min">Minutes a person spends on each<output id="so_min"></output></label><input type="range" id="s_min" min="2" max="20" step="1"></div>
    <div class="ctl"><label for="s_review">Minutes to review the agent's packet<output id="so_review"></output></label><input type="range" id="s_review" min="0.5" max="8" step="0.5"></div>
    <div class="ctl"><label for="s_sal">Loaded cost of a specialist, per year<output id="so_salary"></output></label><input type="range" id="s_sal" min="40000" max="150000" step="5000"></div>
-   <div class="ctl"><label for="s_tps">Model speed, tokens per second<output id="so_tps"></output></label><input type="range" id="s_tps" min="5" max="220" step="5"><span class="small muted">Measured: 12 to 15 in the invoice runs, 29 to 33 in clean benchmark runs. Quoted: 220.</span></div></div></div>
+   <div class="ctl"><label for="s_tps">Model speed, tokens per second<output id="so_tps"></output></label><input type="range" id="s_tps" min="5" max="220" step="5"><span class="small muted">Measured: 12 to 15 in the invoice runs, 29 to 33 in clean benchmark runs. Quoted: 220.</span></div>
+   <div class="ctl"><label for="s_avg">Average invoice value<output id="so_avg"></output></label><input type="range" id="s_avg" min="250" max="10000" step="250"></div></div></div>
   <div class="tiles" id="costTiles"></div>
   <div class="note" id="costNote"></div>
+  <h3>Where the agent cuts cost and adds cash, for this one customer</h3>
+  <div class="grid g2"><div class="card"><h3>Cuts cost</h3><div id="valCut"></div></div><div class="card"><h3>Adds revenue or cash</h3><div id="valAdd"></div></div></div>
+  <div class="card"><h3>How big is the market</h3><div id="valMkt"></div>
+   <p class="small muted" style="margin-top:10px">Sources: <a href="https://www.grandviewresearch.com/industry-analysis/accounts-payable-automation-market-report" target="_blank" rel="noopener">Grand View Research</a> (AP automation market); <a href="https://www.engimarket.com/blog/small-manufacturers-statistics/" target="_blank" rel="noopener">Census SUSB 2022, via EngiMarket</a> (firm counts); <a href="https://www.cfo.com/news/metric-of-the-month-detect-and-prevent-duplicate-or-erroneous-payments/656852/" target="_blank" rel="noopener">APQC via CFO.com</a> (duplicate and erroneous payments); <a href="https://www.apexanalytix.com/resources/blog/ardent-partners-key-ap-metrics-2025/" target="_blank" rel="noopener">Ardent Partners 2025, via apexanalytix</a> (cost per invoice, exception rates); <a href="https://www.apqc.org/what-we-do/benchmarking/open-standards-benchmarking/measures/percentage-invoices-paid-within" target="_blank" rel="noopener">APQC</a> (invoices paid in the discount window, 449 companies). Secondary summaries; check the originals before quoting.</p></div>
   <div class="card"><h3>Why this is a Liquid problem</h3><ul class="tight small">
    <li><b>Private:</b> invoices carry pricing and bank details; the model runs beside the ERP.</li>
    <li><b>Cheap enough to run on everything:</b> screen all invoices, not just exceptions.</li>
    <li><b>Owned:</b> repeated supplier layouts make a fine-tuned extraction head the customer's own asset.</li>
    <li><b>Sufficient:</b> the hard part is reading and arithmetic, not reasoning.</li></ul>
    <p class="small muted" style="margin-top:8px">Not a fit: contract disputes, multi-page credit reconciliations, unfamiliar languages. Those escalate.</p></div>`;
-  const map = {s_inv:"inv", s_rate:"rate", s_min:"min", s_review:"review", s_sal:"salary", s_tps:"tps"};
+  const map = {s_inv:"inv", s_rate:"rate", s_min:"min", s_review:"review", s_sal:"salary", s_tps:"tps", s_avg:"avg"};
   const draw = () => {
     const c=COST, exc=c.inv*c.rate/100, perDay=exc/20, hrs=exc*c.min/60, fte=hrs/160, cost=fte*c.salary;
     const after=exc*c.review/60, saved=hrs-after, secEach=avgTok/c.tps, modelHrs=perDay*secEach/3600;
-    Object.entries(map).forEach(([id,k])=>{ $("#"+id).value=c[k]; $("#so_"+k).textContent = ({inv:c.inv.toLocaleString(),rate:c.rate+"%",min:c.min+" min",review:c.review+" min",salary:money0(c.salary),tps:c.tps+" tok/s"})[k]; });
+    Object.entries(map).forEach(([id,k])=>{ $("#"+id).value=c[k]; $("#so_"+k).textContent = ({inv:c.inv.toLocaleString(),rate:c.rate+"%",min:c.min+" min",review:c.review+" min",salary:money0(c.salary),tps:c.tps+" tok/s",avg:money0(c.avg)})[k]; });
     $("#costTiles").innerHTML = `<div class="tile"><span class="v">${Math.round(exc).toLocaleString()}</span><span class="l">exceptions a month, about ${Math.round(perDay)} a working day</span></div>
      <div class="tile"><span class="v">${Math.round(hrs)} h</span><span class="l">a month of specialist time, about ${fte.toFixed(1)} of a person, ${money0(cost)} a year</span></div>
      <div class="tile"><span class="v">${Math.round(saved)} h</span><span class="l">saved a month if review takes ${c.review} min a packet</span></div>
      <div class="tile"><span class="v">${Math.round(secEach)} s</span><span class="l">model time per invoice at ${c.tps} tok/s (${Math.round(avgTok).toLocaleString()} output tokens on average in the latest run)</span></div>
      <div class="tile"><span class="v">${modelHrs.toFixed(1)} h</span><span class="l">of model time per working day</span></div>`;
+    const spend=c.inv*12*c.avg, labour=saved/160*c.salary, atRisk=spend*0.008, stopped=atRisk*0.25;
+    const discount=spend*0.10*(c.rate/100)*0.02, perFirm=labour+stopped+discount, firms=12392;
+    const big = x => x>=1e9 ? "$"+(x/1e9).toFixed(1)+"B" : x>=1e6 ? "$"+(x/1e6).toFixed(1)+"M" : money0(x);
+    $("#valCut").innerHTML = `<div class="tiles"><div class="tile"><span class="v">${big(labour)}</span><span class="l">a year of specialist time back (${Math.round(saved)} h a month)</span></div>
+      <div class="tile"><span class="v">${big(stopped)}</span><span class="l">a year of overpayments stopped</span></div></div>
+      <p class="small" style="margin-top:10px">Supplier spend here is about ${big(spend)} a year (${c.inv.toLocaleString()} invoices a month at ${money0(c.avg)}). APQC finds even top performers pay 0.8% of disbursements in duplicate or erroneous payments (2% for the bottom group): ${big(atRisk)} at risk. The agent checks every exception for duplicates, price over tolerance and billing above receipt; the tile assumes it stops a quarter of that leakage. <b>This is the larger saving, not the labour.</b></p>`;
+    $("#valAdd").innerHTML = `<div class="tiles"><div class="tile"><span class="v">${big(discount)}</span><span class="l">a year of early-payment discounts no longer missed</span></div>
+      <div class="tile"><span class="v">2% in 10 days</span><span class="l">a typical discount: about 36% a year in annualized return</span></div></div>
+      <p class="small" style="margin-top:10px">APQC finds only about 15% of invoices are paid inside the discount window (14.9% across 449 companies), mostly because they sit in queues. Assumes 10% of spend carries 2/10 net 30 terms and the agent clears exceptions inside the window. Not counted in dollars: shipments a supplier stops holding once a disputed invoice is resolved, which keeps a production line running.</p>`;
+    $("#valMkt").innerHTML = `<div class="tiles"><div class="tile"><span class="v">~$3B</span><span class="l">global accounts payable automation market, 2023, growing about 12.5% a year (other estimates range $1.5B to $8.5B by scope)</span></div>
+      <div class="tile"><span class="v">12,392</span><span class="l">US manufacturers with 100 to 499 employees, plus 4,177 with 500 or more</span></div>
+      <div class="tile"><span class="v">${big(perFirm)}</span><span class="l">value a year for one customer like this one</span></div>
+      <div class="tile"><span class="v">${big(perFirm*firms)}</span><span class="l">a year across US mid-market manufacturers alone, if each looks like this customer</span></div></div>
+      <p class="small" style="margin-top:10px">Ardent Partners puts the average cost to process an invoice at $9.40 against $2.78 for the best teams, with 14% to 22% of invoices becoming exceptions. The exceptions are where that gap lives. Moving the sliders changes the per-customer and US figures; the market and firm counts are fixed.</p>`;
     $("#costNote").innerHTML = modelHrs<=8
       ? `At ${c.tps} tokens a second the whole day's queue takes ${modelHrs.toFixed(1)} hours of model time, so one laptop-class machine can stay ahead of it. Throughput is not the constraint at this volume. The reason to run ahead of the queue is that an approver should never wait three minutes for a packet.`
       : `At ${c.tps} tokens a second the queue needs ${modelHrs.toFixed(1)} hours of model time a day, which does not fit in a working day on one machine. This is where server-class hardware, or the quoted 220 tokens a second, starts to matter.`;
