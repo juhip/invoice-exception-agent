@@ -464,9 +464,34 @@ function lineChart(o){
 let COST = {inv:4000, rate:25, min:8, salary:75000, tps:30, review:2};
 function renderCustomer(el){
   const avgTok = DATA.reduce((a,r)=>a+r.completionTokens,0)/DATA.length;
-  el.innerHTML = `<div class="head"><h2>The customer, and what the exception queue costs</h2>
-  <p class="lede">A mid-market manufacturer. The ERP clears 75% of invoices; the rest wait about 8 minutes each for a person.</p>
+  const FLOW = [
+   ["1","Invoice fails the ERP's three-way match and lands in the queue","Same","code"],
+   ["2","Open the PDF, scan or email; read the supplier, PO, lines and totals","Done before the specialist opens it: extracted and arithmetic-checked","agent"],
+   ["3","Find the PO and goods receipts in the ERP; email the buyer when the invoice names no PO","Done: PO found, or proposed from the supplier's open POs for a person to confirm","agent"],
+   ["4","Work out the variance against tolerance, often in a spreadsheet","Done: every finding with exact numbers, by fixed rules","agent"],
+   ["5","Decide: pay, short pay, dispute, hold or reject","Proposed with the reason; the specialist approves, edits or rejects","person"],
+   ["6","Write to the supplier","Drafted and fact-checked; the specialist sends it","agent"],
+   ["7","Route for approval over the limit, or to Treasury on a bank change","Routed automatically with the packet","agent"]];
+  el.innerHTML = `<div class="head"><h2>Customer and problem</h2>
+  <p class="lede">A mid-market discrete manufacturer, 300 to 500 suppliers, a five- or six-person accounts payable team. The ERP clears 75% of invoices automatically. The rest wait in a queue for a person.</p>
   ${srcLine("Assumption","demo sizing; replace with the customer's numbers")}</div>
+  <div class="grid g2">
+   <div class="card"><h3>Who uses it</h3><ul class="tight small">
+    <li><b>Accounts payable specialist (the end user).</b> Works the exception queue all day. Today about 8 minutes an invoice, most of it reading, looking things up and arithmetic. With the agent, reviews a packet instead.</li>
+    <li><b>Accounts payable manager.</b> Owns the tolerance policy and the auto-approve limit; approves anything over it.</li>
+    <li><b>Treasury.</b> Clears any invoice that asks to change bank details.</li>
+    <li><b>Buyers and suppliers.</b> Buyers get fewer "which PO is this?" emails; suppliers get a clear, correct dispute email.</li></ul></div>
+   <div class="card"><h3>The metric it moves</h3><ul class="tight small">
+    <li><b>Primary: specialist minutes per exception</b>, from about 8 to about 2 (the time to review a packet).</li>
+    <li><b>Outcome: exceptions cleared inside the SLA</b>, 5 working days and within 30-day payment terms, so early-payment discounts are not missed and shipments are not held.</li>
+    <li><b>Guardrail: wrong payments stay at zero.</b> Speed never comes from releasing money a person has not checked; every failure escalates.</li></ul></div>
+  </div>
+  <h3>Today's workflow, and where the agent takes over</h3>
+  <div class="tw"><table><thead><tr><th>Step</th><th>Today, by the specialist</th><th>With the agent</th></tr></thead><tbody>
+  ${FLOW.map(([n,t,a,who])=>`<tr><td class="num">${n}</td><td>${t}</td><td>${who==="agent"?'<span class="tag t-model">agent</span> ':who==="person"?'<span class="tag t-code">person</span> ':""}${a}</td></tr>`).join("")}
+  </tbody></table></div>
+  <div class="note">The specialist's job moves from steps 2 to 7 to step 5: check the agent's reasoning and decide. The reading, lookups, arithmetic and drafting happen before the invoice reaches them.</div>
+  <h3>What the queue costs</h3>
   <div class="card"><div class="grid g3">
    <div class="ctl"><label for="s_inv">Supplier invoices a month<output id="so_inv"></output></label><input type="range" id="s_inv" min="500" max="20000" step="500"></div>
    <div class="ctl"><label for="s_rate">Share that fail the automatic match<output id="so_rate"></output></label><input type="range" id="s_rate" min="5" max="50" step="1"></div>
@@ -576,12 +601,23 @@ function renderRun(el){
 const CH = [["rel","Reliability compounds",renderRel],["nec","Model necessity",renderWho],["inj","Untrusted input",renderAttacks]];
 let selCh = "rel";
 function renderChallenges(el){
+  const DEC = [
+   ["The model reads; code decides", "Variances, tolerances, duplicates and fraud are arithmetic and policy. A wrong model answer must not be able to become a payment.", "More code to maintain, and a rule for every policy case. Anything the rules do not cover escalates to a person.", "No wrong payment in three full runs; every failure was an escalation."],
+   ["Few model calls, each checked by code", "Six steps at 95% each finish right 74% of the time. Fewer, checked steps compound less.", "Checks catch errors, they do not prevent them: an invoice still takes about 160 s, and a caught error costs a person's look.", "One call on a typical invoice, five at most. The arithmetic check repaired a wide-table misread the retry repeated."],
+   ["Guards in code, not in the prompt", "A prompt line telling the model the buyer is never the supplier did not stop it.", "Each guard covers a failure already seen; a new failure mode needs a new guard.", "Buyer named as supplier on both datasets, caught both times."],
+   ["Read-only tools; a person pays and sends", "Invoice text is written by strangers. An injected instruction or a changed bank account must not reach money.", "No straight-through processing for disputes: 3 of 10 invoices release alone at the built settings.", "Invoice 9 (injection plus bank change) went to a fraud hold."],
+   ["A small local model, not a frontier API", "Invoices carry pricing and bank details, and the volume is every invoice, not a sample.", "Slower (12 to 15 tokens a second in the runs) and weaker on wide tables. Hard cases escalate to a frontier model by config.", "Runs end to end on an 8 GB laptop at about 1.9 GB of model memory."]];
   el.innerHTML = `<div class="head"><h2>Decisions and trade-offs</h2>
-  <p class="lede">Three problems any small-model agent has to answer.</p></div>
+  <p class="lede">Five decisions shaped the build. Each one answers a specific risk, and each has a cost I chose to accept.</p>
+  ${srcLine("From the design","ARCHITECTURE.md and the graded runs")}</div>
+  <div class="tw"><table><thead><tr><th>Decision</th><th>Why</th><th>What it costs</th><th>Evidence</th></tr></thead><tbody>
+  ${DEC.map(([d,w,c,e])=>`<tr><td><b>${d}</b></td><td>${w}</td><td>${c}</td><td>${e}</td></tr>`).join("")}
+  </tbody></table></div>
+  <h3>Go deeper on three of them</h3>
   <div class="pick" id="chPick">
-   <button class="opt" data-c="rel"><b>Reliability compounds</b><span class="small muted">Few model steps, each checked, none in the decision.</span></button>
-   <button class="opt" data-c="nec"><b>Model necessity</b><span class="small muted">Language is needed to read, find and write. It is not needed to decide.</span></button>
-   <button class="opt" data-c="inj"><b>Untrusted input</b><span class="small muted">Structure, not the prompt, stops an injection.</span></button>
+   <button class="opt" data-c="rel"><b>Few model calls, each checked</b><span class="small muted">The risk: reliability compounds across steps.</span></button>
+   <button class="opt" data-c="nec"><b>The model reads; code decides</b><span class="small muted">The risk: using generation where it is not needed.</span></button>
+   <button class="opt" data-c="inj"><b>Structure, not prompts, stops an injection</b><span class="small muted">The risk: untrusted text in every invoice.</span></button>
   </div>
   ${CH.map(([id])=>`<section class="panel" id="ch-${id}" hidden></section>`).join("")}`;
   const done = {};
