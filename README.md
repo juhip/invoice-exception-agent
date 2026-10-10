@@ -14,7 +14,7 @@ email; it cannot cause a wrong payment.
 
 **Explore the runs:** [juhip.github.io/invoice-exception-agent/explorer](https://juhip.github.io/invoice-exception-agent/explorer/)
 (or open `explorer/index.html` locally; it is self-contained). It replays
-the ten graded invoices stage by stage, shows every model call, lets you move the accounts payable
+the ten graded invoices stage by stage, shows every model call and the architecture, lets you move the accounts payable
 policy and watch the decisions change, and includes the LFM2.5-2.6B laptop benchmarks.
 
 **Results:** 10 of 10 invoices resolved correctly in the latest graded run (8, then 9, then 10 across

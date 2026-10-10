@@ -152,6 +152,11 @@ details.call>summary{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font
 .adiag svg text{font-family:var(--font-body)}
 .adiag{overflow-x:auto}
 @media (max-width:760px){.adiag svg{min-width:640px}}
+.stack{display:flex;flex-direction:column;gap:44px}
+.stack>section+section{border-top:1px solid var(--line);padding-top:28px}
+.jump{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:-6px}
+.jump a{color:var(--code);text-decoration:none;font-weight:500}
+.jump a:hover{text-decoration:underline}
 
 footer{margin-top:28px;color:var(--muted);font-size:12.5px}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .25s ease}.meter .m i{transition:width .25s ease}}
@@ -239,7 +244,7 @@ const STAGES = [
 let selStage = 1;
 function renderPipeline(el){
   el.innerHTML = `
-  <div class="head"><h2>One exception, arrival to resolution</h2>
+  <div class="head"><h2>Stage by stage</h2>
   <p class="lede">The model reads; code decides. Click a stage for its input, output, check and fallback.</p>
   ${srcLine("From the design","ARCHITECTURE.md; timings are medians from the graded runs")}</div>
   <div class="row small"><span class="tag t-code">Code</span> deterministic and repeatable <span class="tag t-model">Model</span> LFM2.5-2.6B, every output validated</div>
@@ -292,7 +297,7 @@ const KNOBS = [
  ["frPct","Freight allowance, percent of goods",0,20,0.5,v=>v+"%"],["frAbs","Freight allowance, dollars",0,500,10,v=>"$"+v],
  ["limit","Auto-approve limit",0,10000,250,v=>money0(v)]];
 function renderPolicy(el){
-  el.innerHTML = `<div class="head"><h2>What the accounts payable manager controls</h2>
+  el.innerHTML = `<div class="head"><h2>Autonomy settings: what the accounts payable manager controls</h2>
   <p class="lede">The policy knobs, owned by the accounts payable manager. Move one and the ten invoices are re-decided by the real decision logic.</p>
   ${srcLine("Measured","re-runs the stage-4 rules on the extracted numbers from the ten graded runs; at the built settings it reproduces all ten recorded decisions")}</div>
   <div class="row"><span class="small muted">Presets</span><button class="btn" data-p="strict">Strict</button><button class="btn" data-p="built">As built</button><button class="btn" data-p="loose">Loose</button></div>
@@ -510,7 +515,7 @@ function callCard(c){
   </div></details>`;
 }
 function renderRun(el){
-  el.innerHTML = `<div class="head"><h2>Run an invoice</h2>
+  el.innerHTML = `<div class="head"><h2>The solution: run an invoice</h2>
   <p class="lede">Pick an invoice to replay its real run: the input, each stage, every model call, and the packet a person approves.</p>
   ${srcLine("Measured","real packets from the latest run")}</div>
   <div class="pick" id="runPick">${REPLAY.map((r,i)=>`<button class="opt" data-i="${i}"><span class="small muted mono">${esc(r.file)}</span><b>${esc(r.label)}</b>${decTag(r.decide.decision)}</button>`).join("")}</div>
@@ -571,7 +576,7 @@ function renderRun(el){
 const CH = [["rel","Reliability compounds",renderRel],["nec","Model necessity",renderWho],["inj","Untrusted input",renderAttacks]];
 let selCh = "rel";
 function renderChallenges(el){
-  el.innerHTML = `<div class="head"><h2>The three core challenges</h2>
+  el.innerHTML = `<div class="head"><h2>Decisions and trade-offs</h2>
   <p class="lede">Three problems any small-model agent has to answer.</p></div>
   <div class="pick" id="chPick">
    <button class="opt" data-c="rel"><b>Reliability compounds</b><span class="small muted">Few model steps, each checked, none in the decision.</span></button>
@@ -590,7 +595,7 @@ function renderChallenges(el){
 
 /* ---------- 7. the model ---------- */
 function renderPart1(el){
-  el.innerHTML = `<div class="head"><h2>The model: LFM2.5-2.6B on an 8 GB laptop</h2>
+  el.innerHTML = `<div class="head"><h2>Model performance: LFM2.5-2.6B on an 8 GB laptop</h2>
   <p class="lede">Apple M2, 8 GB, LM Studio, Q5_K_M GGUF. Loading at 128K made the same model 3x slower.</p>
   ${srcLine("Measured","local benchmarks; one run per size, so treat shapes as indicative")}</div>
   <div class="grid g2"><div class="card"><h3>Generation speed by prompt size</h3><div id="c1"></div><div class="legend"><span style="--c:var(--code)">loaded at 4K context</span><span style="--c:var(--model)">loaded at 128K context</span></div></div>
@@ -650,7 +655,7 @@ function renderArch(el){
   const cell = (s,k,label) => `<div class="ac"><span class="al">${label}</span>${s[k]}</div>`;
   el.innerHTML = `<div class="head"><h2>Architecture: one exception, arrival to resolution</h2>
   <p class="lede">Five stages. The model reads; code decides; a person approves. Every model output is checked by code and has a defined fallback.</p>
-  ${srcLine("From the design","ARCHITECTURE.md; the same design as How it works, on one page")}</div>
+  ${srcLine("From the design","ARCHITECTURE.md; the whole design on one page, then each stage below")}</div>
   <div class="row small"><span class="tag t-code">Code</span> deterministic and repeatable <span class="tag t-model">Model</span> LFM2.5-2.6B, every output validated</div>
   <figure class="card adiag"><svg viewBox="0 0 1100 460" role="img" aria-label="An untrusted invoice passes through intake, extract, resolve, decide and draft. The local LFM2.5-2.6B model is called only by extract, resolve and draft, never by decide. The ERP is read-only, the policy file feeds decide, and every failure routes to a person, as does every finished packet.">
    <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
@@ -717,10 +722,20 @@ function renderArch(el){
   </tbody></table></div></div>`;
 }
 
+/* ---------- composite tabs ---------- */
+function stack(el, parts, jump){
+  el.innerHTML = (jump ? `<nav class="jump small" aria-label="On this page">${parts.map(([id,label])=>`<a href="#sec-${id}" data-sec="${id}">${label}</a>`).join("")}</nav>` : "")
+    + `<div class="stack">${parts.map(([id])=>`<section class="panel" id="sec-${id}"></section>`).join("")}</div>`;
+  parts.forEach(([id,,fn]) => fn(el.querySelector("#sec-"+id)));
+  el.querySelectorAll(".jump a").forEach(a => a.addEventListener("click", e => { e.preventDefault(); el.querySelector("#sec-"+a.dataset.sec).scrollIntoView({behavior:"smooth", block:"start"}); }));
+}
+function renderHow(el){ stack(el, [["arch","Architecture",renderArch],["stages","Stage by stage",renderPipeline],["tradeoffs","Decisions and trade-offs",renderChallenges]], true); }
+function renderResults(el){ stack(el, [["evidence","Results",renderEvidence],["next","Next steps",renderNext]], true); }
+
 /* ---------- shell ---------- */
 const SECTIONS = [
-  {id:"s1", label:"The model", sub:"LFM2.5-2.6B on my laptop", tabs:[["part1","LFM2.5-2.6B on my laptop",renderPart1]]},
-  {id:"s2", label:"The agent", sub:"Invoice exceptions, end to end", tabs:[["customer","The customer",renderCustomer],["run","Run an invoice",renderRun],["arch","Architecture",renderArch],["pipeline","How it works",renderPipeline],["challenges","Three core challenges",renderChallenges],["policy","What the accounts payable manager controls",renderPolicy],["evidence","Results",renderEvidence],["next","Next steps",renderNext]]}];
+  {id:"s1", label:"Part 1: Model performance", sub:"LFM2.5-2.6B on an 8 GB laptop", tabs:[["part1","Model performance",renderPart1]]},
+  {id:"s2", label:"Part 2: The agent", sub:"Invoice exceptions, end to end", tabs:[["customer","Customer and problem",renderCustomer],["run","The solution",renderRun],["how","How it works",renderHow],["policy","Autonomy settings",renderPolicy],["results","Results and next steps",renderResults]]}];
 const TABS = SECTIONS.flatMap(s => s.tabs.map(t => [...t, s.id]));
 const secEl = $("#tabs"), main = $("#main");
 const subnav = document.createElement("div"); subnav.className = "subnav"; subnav.setAttribute("role","tablist"); main.appendChild(subnav);
