@@ -1,0 +1,153 @@
+{
+ "run_id": "20261008-155848_inv_04_qty_overbilled_scan",
+ "source": "data/invoices/inv_04_qty_overbilled_scan.txt",
+ "model": "lfm2.5-2.6b",
+ "stages": {
+  "intake": {
+   "source": "inv_04_qty_overbilled_scan.txt",
+   "format": "text",
+   "chars": 686,
+   "po_refs_found_by_code": [
+    "PO-2026-1104"
+   ],
+   "injection_phrases": [],
+   "remittance_change_phrases": []
+  },
+  "extract": {
+   "attempts": 1,
+   "repairs": [],
+   "error": null,
+   "invoice": {
+    "invoice_number": "CWC-60558",
+    "supplier_name": "Copperline Wire & Cable",
+    "invoice_date": "2026-09-30",
+    "po_references": [
+     "P0-2026-1104"
+    ],
+    "lines": [
+     {
+      "line": 1,
+      "part_ref": "P-308",
+      "description": "THHN Cu Wire 12 AWG 500ft (P-308)",
+      "quantity": 24.0,
+      "unit": null,
+      "unit_price": 64.5,
+      "extended": 1548.0
+     }
+    ],
+    "subtotal": 1548.0,
+    "freight": 0.0,
+    "tax": null,
+    "total": 1548.0,
+    "currency": "USD",
+    "payment_instructions": "Ship via LTL ground. Terms: N3O.",
+    "text_addressed_to_processor": "Backorder note: 6 spools to ship week of 10/12.",
+    "notes": null
+   }
+  },
+  "resolve": {
+   "supplier": "Copperline Wire & Cable",
+   "purchase_orders": [
+    "PO-2026-1104"
+   ],
+   "how": [
+    "supplier matched by name (1.00): Copperline Wire & Cable",
+    "reference 'P0-2026-1104' is not a purchase order in the ERP",
+    "PO-2026-1104 found from the reference on the invoice",
+    "line 1 matched by part number P-308"
+   ],
+   "flags": [],
+   "model_tool_calls": [],
+   "line_to_po": {
+    "1": "PO-2026-1104"
+   }
+  },
+  "decide": {
+   "decision": "short_pay",
+   "payable": 1161.0,
+   "invoice_total": 1548.0,
+   "auto_release": false,
+   "approver": "AP specialist",
+   "email_needed": true,
+   "findings": [
+    {
+     "code": "instructions_in_document",
+     "severity": "warning",
+     "detail": "the invoice contains text addressed to the processor or the system; it was ignored"
+    },
+    {
+     "code": "quantity_over_received",
+     "severity": "critical",
+     "detail": "line 1: invoiced 24 but received 18 (ordered 24); pay for 18, short-pay 387.00"
+    }
+   ],
+   "lines": [
+    {
+     "line": 1,
+     "po_number": "PO-2026-1104",
+     "invoiced_qty": 24.0,
+     "invoiced_unit_price": 64.5,
+     "po_unit_price": 64.5,
+     "ordered_qty": 24.0,
+     "received_qty": 18.0,
+     "pay_qty": 18.0,
+     "pay_unit_price": 64.5,
+     "pay_amount": 1161.0
+    }
+   ],
+   "flags": [
+    "short_pay"
+   ]
+  },
+  "draft": {
+   "facts": {
+    "invoice_number": "CWC-60558",
+    "invoice_date": "2026-09-30",
+    "invoice_total": 1548.0,
+    "supplier": "Copperline Wire & Cable",
+    "purchase_orders": [
+     "PO-2026-1104"
+    ],
+    "problems": [
+     "line 1: invoiced 24 but received 18 (ordered 24); pay for 18, short-pay 387.00"
+    ],
+    "we_will": "pay for the quantity received and ask for a credit note for the balance",
+    "amount_we_will_pay": 1161.0,
+    "amounts": [
+     0.0,
+     64.5,
+     387.0,
+     1161.0,
+     1548.0
+    ],
+    "quantities": [
+     18.0,
+     24.0
+    ]
+   },
+   "email": "Dear Copperline Wire & Cable,\n\nWe have reviewed invoice CWC-60558 dated 2026-09-30 and noticed a discrepancy on line 1. The invoice shows 24 units but we received only 18, so we will pay for the quantity actually received of 18 units. This results in a short-pay of 387.00 from our original total of 1548.0. As discussed, we will process payment for the 18 units and request a credit note for the remaining balance.\n\nPlease let us know if you have any questions about this adjustment.\n\nRidgeline Fabrication Accounts Payable",
+   "written_by": "model",
+   "model_rejected": null
+  }
+ },
+ "resolution": {
+  "decision": "short_pay",
+  "payable": 1161.0,
+  "auto_release": false,
+  "approver": "AP specialist",
+  "summary": "CWC-60558 from Copperline Wire & Cable for 1548.00 against PO-2026-1104: short pay, pay 1161.00, approver: AP specialist"
+ },
+ "model_usage": {
+  "calls": 3,
+  "seconds": 270.2,
+  "prompt_tokens": 1497,
+  "completion_tokens": 4747,
+  "reasoning_tokens": 4229,
+  "stages": [
+   "extract#1",
+   "draft_email#1",
+   "draft_email#2"
+  ]
+ },
+ "seconds": 270.3
+}

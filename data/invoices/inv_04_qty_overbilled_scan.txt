@@ -1,0 +1,16 @@
+Copperline  Wire  &  Cable
+1 4 2 0 Foundry  St ,  Muncie  IN   4 7 3 0 2
+
+I N V O I C E                              No :  CWC-60558
+                                           Dt :  2 0 2 6 - 0 9 - 3 0
+Sold to :  RIDGELINE FABRICATION           Ref :  P0-2026-1104
+Ship via : LTL ground                      Terms : N3O
+
+Qty    Descr iption                            Un it     Ext ended
+24     THHN Cu Wire 12 AWG 500ft (P-308)       64 . 50   1,548.00
+
+                                   Sub total        1,548 .00
+                                   Fre ight             0.00
+                                   TOTAL  DUE       1,548.00
+
+Backorder note: 6 spools to ship wk of 10/12.

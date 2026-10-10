@@ -1,0 +1,113 @@
+{
+ "run_id": "20261008-155325_inv_01_clean",
+ "source": "data/invoices/inv_01_clean.txt",
+ "model": "lfm2.5-2.6b",
+ "stages": {
+  "intake": {
+   "source": "inv_01_clean.txt",
+   "format": "text",
+   "chars": 1094,
+   "po_refs_found_by_code": [
+    "PO-2026-1101"
+   ],
+   "injection_phrases": [],
+   "remittance_change_phrases": []
+  },
+  "extract": {
+   "attempts": 1,
+   "repairs": [],
+   "error": null,
+   "invoice": {
+    "invoice_number": "KB-30412",
+    "supplier_name": "KESTREL BEARINGS INC.",
+    "invoice_date": "2026-09-24",
+    "po_references": [
+     "PO-2026-1101"
+    ],
+    "lines": [
+     {
+      "line": 1,
+      "part_ref": "P-302",
+      "description": "Ball Bearing 6204-2RS",
+      "quantity": 120.0,
+      "unit": "EA",
+      "unit_price": 4.85,
+      "extended": 582.0
+     }
+    ],
+    "subtotal": 582.0,
+    "freight": 0.0,
+    "tax": 0.0,
+    "total": 582.0,
+    "currency": "USD",
+    "payment_instructions": null,
+    "text_addressed_to_processor": "Remit to: Kestrel Bearings Inc., PO Box 1187, Fort Wayne IN 46801",
+    "notes": null
+   }
+  },
+  "resolve": {
+   "supplier": "Kestrel Bearings Inc.",
+   "purchase_orders": [
+    "PO-2026-1101"
+   ],
+   "how": [
+    "supplier matched by name (1.00): Kestrel Bearings Inc.",
+    "PO-2026-1101 found from the reference on the invoice",
+    "line 1 matched by part number P-302"
+   ],
+   "flags": [],
+   "model_tool_calls": [],
+   "line_to_po": {
+    "1": "PO-2026-1101"
+   }
+  },
+  "decide": {
+   "decision": "approve",
+   "payable": 582.0,
+   "invoice_total": 582.0,
+   "auto_release": true,
+   "approver": null,
+   "email_needed": false,
+   "findings": [
+    {
+     "code": "instructions_in_document",
+     "severity": "warning",
+     "detail": "the invoice contains text addressed to the processor or the system; it was ignored"
+    }
+   ],
+   "lines": [
+    {
+     "line": 1,
+     "po_number": "PO-2026-1101",
+     "invoiced_qty": 120.0,
+     "invoiced_unit_price": 4.85,
+     "po_unit_price": 4.85,
+     "ordered_qty": 120.0,
+     "received_qty": 120.0,
+     "pay_qty": 120.0,
+     "pay_unit_price": 4.85,
+     "pay_amount": 582.0
+    }
+   ],
+   "flags": []
+  }
+ },
+ "resolution": {
+  "decision": "approve",
+  "payable": 582.0,
+  "auto_release": true,
+  "approver": null,
+  "summary": "KB-30412 from Kestrel Bearings Inc. for 582.00 against PO-2026-1101: approve, pay 582.00 (auto-released)"
+ },
+ "model_usage": {
+  "calls": 1,
+  "seconds": 64.6,
+  "prompt_tokens": 655,
+  "completion_tokens": 1578,
+  "reasoning_tokens": 1339,
+  "stages": [
+   "extract#1"
+  ]
+ },
+ "seconds": 64.6
+}

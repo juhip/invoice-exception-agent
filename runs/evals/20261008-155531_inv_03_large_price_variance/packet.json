@@ -1,0 +1,148 @@
+{
+ "run_id": "20261008-155531_inv_03_large_price_variance",
+ "source": "data/invoices/inv_03_large_price_variance.txt",
+ "model": "lfm2.5-2.6b",
+ "stages": {
+  "intake": {
+   "source": "inv_03_large_price_variance.txt",
+   "format": "text",
+   "chars": 1047,
+   "po_refs_found_by_code": [
+    "PO-2026-1103"
+   ],
+   "injection_phrases": [],
+   "remittance_change_phrases": []
+  },
+  "extract": {
+   "attempts": 1,
+   "repairs": [],
+   "error": null,
+   "invoice": {
+    "invoice_number": "TSS-118204",
+    "supplier_name": "TAMARACK STEEL SERVICE",
+    "invoice_date": "2026-09-29",
+    "po_references": [
+     "PO-2026-1103"
+    ],
+    "lines": [
+     {
+      "line": 1,
+      "part_ref": "P-305",
+      "description": "HR Plate 3/8\" x 48\" x 96\" A36",
+      "quantity": 18.0,
+      "unit": "SHT",
+      "unit_price": 233.2,
+      "extended": 4197.6
+     }
+    ],
+    "subtotal": 4197.6,
+    "freight": 0.0,
+    "tax": 0.0,
+    "total": 4197.6,
+    "currency": "USD",
+    "payment_instructions": "Remit to: Tamarack Steel Service, PO Box 30, Gary IN 46401",
+    "text_addressed_to_processor": null,
+    "notes": null
+   }
+  },
+  "resolve": {
+   "supplier": "Tamarack Steel Service",
+   "purchase_orders": [
+    "PO-2026-1103"
+   ],
+   "how": [
+    "supplier matched by name (1.00): Tamarack Steel Service",
+    "PO-2026-1103 found from the reference on the invoice",
+    "line 1 matched by part number P-305"
+   ],
+   "flags": [],
+   "model_tool_calls": [],
+   "line_to_po": {
+    "1": "PO-2026-1103"
+   }
+  },
+  "decide": {
+   "decision": "dispute_price",
+   "payable": 3816.0,
+   "invoice_total": 4197.6,
+   "auto_release": false,
+   "approver": "AP specialist",
+   "email_needed": true,
+   "findings": [
+    {
+     "code": "price_over_tolerance",
+     "severity": "critical",
+     "detail": "line 1: unit price 233.20 vs PO 212.00 (+10.0%), over the 2.0% / $25.00 tolerance; pay at the PO price and dispute 381.60"
+    }
+   ],
+   "lines": [
+    {
+     "line": 1,
+     "po_number": "PO-2026-1103",
+     "invoiced_qty": 18.0,
+     "invoiced_unit_price": 233.2,
+     "po_unit_price": 212.0,
+     "ordered_qty": 18.0,
+     "received_qty": 18.0,
+     "pay_qty": 18.0,
+     "pay_unit_price": 212.0,
+     "pay_amount": 3816.0
+    }
+   ],
+   "flags": [
+    "dispute_price"
+   ]
+  },
+  "draft": {
+   "facts": {
+    "invoice_number": "TSS-118204",
+    "invoice_date": "2026-09-29",
+    "invoice_total": 4197.6,
+    "supplier": "Tamarack Steel Service",
+    "purchase_orders": [
+     "PO-2026-1103"
+    ],
+    "problems": [
+     "line 1: unit price 233.20 vs PO 212.00 (+10.0%), over the 2.0% / $25.00 tolerance; pay at the PO price and dispute 381.60"
+    ],
+    "we_will": "pay at the purchase-order price and ask for a corrected invoice or credit note",
+    "amount_we_will_pay": 3816.0,
+    "amounts": [
+     0.0,
+     25.0,
+     212.0,
+     233.2,
+     381.6,
+     3816.0,
+     4197.6
+    ],
+    "quantities": [
+     18.0
+    ]
+   },
+   "email": "Dear Tamarack Steel Service,\n\nWe have reviewed invoice TSS-118204 dated 2026-09-29 with a total of $4197.60 and noticed a discrepancy on line 1. The unit price of $233.20 exceeds the purchase order price of $212.00 by 10%, which is outside our 2.0% / $25.00 tolerance. As a result, we will pay at the purchase-order price of $212.00 and dispute the overcharge amount of $381.60. Our adjusted payment amount will be $3816.00, and we will request a corrected invoice or credit note from you.\n\nBest regards,\nRidgeline Fabrication Accounts Payable",
+   "written_by": "model",
+   "model_rejected": null
+  }
+ },
+ "resolution": {
+  "decision": "dispute_price",
+  "payable": 3816.0,
+  "auto_release": false,
+  "approver": "AP specialist",
+  "summary": "TSS-118204 from Tamarack Steel Service for 4197.60 against PO-2026-1103: dispute price, pay 3816.00, approver: AP specialist"
+ },
+ "model_usage": {
+  "calls": 3,
+  "seconds": 196.8,
+  "prompt_tokens": 1571,
+  "completion_tokens": 3678,
+  "reasoning_tokens": 3124,
+  "stages": [
+   "extract#1",
+   "draft_email#1",
+   "draft_email#2"
+  ]
+ },
+ "seconds": 196.9
+}

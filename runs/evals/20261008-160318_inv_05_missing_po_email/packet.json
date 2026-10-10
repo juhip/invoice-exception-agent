@@ -1,0 +1,207 @@
+{
+ "run_id": "20261008-160318_inv_05_missing_po_email",
+ "source": "data/invoices/inv_05_missing_po_email.txt",
+ "model": "lfm2.5-2.6b",
+ "stages": {
+  "intake": {
+   "source": "inv_05_missing_po_email.txt",
+   "format": "email",
+   "chars": 879,
+   "po_refs_found_by_code": [],
+   "injection_phrases": [],
+   "remittance_change_phrases": []
+  },
+  "extract": {
+   "attempts": 1,
+   "repairs": [],
+   "error": null,
+   "invoice": {
+    "invoice_number": "NEC-2026-5512",
+    "supplier_name": "Ridgeline Fabrication",
+    "invoice_date": "2026-10-06",
+    "po_references": [],
+    "lines": [
+     {
+      "line": 1,
+      "part_ref": "motor run capacitor",
+      "description": "16 x motor run capacitors",
+      "quantity": 16.0,
+      "unit": null,
+      "unit_price": 12.4,
+      "extended": 198.4
+     }
+    ],
+    "subtotal": 198.4,
+    "freight": null,
+    "tax": null,
+    "total": 198.4,
+    "currency": "USD",
+    "payment_instructions": null,
+    "text_addressed_to_processor": null,
+    "notes": "Invoice for sixteen motor run capacitors shipped 9/24, amount $198.40 (16 x $12.40). Unpaid since past 10 days."
+   }
+  },
+  "resolve": {
+   "supplier": "Northgate Electrical Components",
+   "purchase_orders": [
+    "PO-2026-1105"
+   ],
+   "how": [
+    "the model named Ridgeline Fabrication (the buyer) as the supplier; ignored",
+    "PO-2026-1105 proposed by the model (high): The invoice NEC-2026-5512 for 16 motor run capacitors at $12.40 each ($198.40 total) matches PO-2026-1105 from Northgate Electrical Components, which has the same quantity (16), unit price ($12.40), and total value ($198.4).",
+    "supplier taken from the purchase order: Northgate Electrical Components",
+    "line 1 matched: single line, single purchase order"
+   ],
+   "flags": [
+    "supplier_misread",
+    "po_reference_missing",
+    "po_matched_by_inference",
+    "supplier_from_po"
+   ],
+   "model_tool_calls": [
+    {
+     "tool": "find_supplier",
+     "args": {
+      "name": "Northgate Electrical"
+     },
+     "result": {
+      "matches": [
+       {
+        "supplier_id": "V-2004",
+        "name": "Northgate Electrical Components",
+        "country": "USA",
+        "on_approved_list": true,
+        "score": 0.9
+       },
+       {
+        "supplier_id": "V-2005",
+        "name": "Tamarack Steel Service",
+        "country": "USA",
+        "on_approved_list": true,
+        "score": 0.476
+       },
+       {
+        "supplier_id": "V-2003",
+        "name": "Bluewater Industrial Coatings",
+        "country": "USA",
+        "on_approved_list": true,
+        "score": 0.383
+       }
+      ]
+     }
+    },
+    {
+     "tool": "find_candidate_pos",
+     "args": {
+      "supplier_id": "V-2004",
+      "amount": 198.4
+     },
+     "result": {
+      "supplier_id": "V-2004",
+      "candidates": [
+       {
+        "po_number": "PO-2026-1105",
+        "part_name": "Motor Run Capacitor 45uF 440VAC",
+        "ordered_qty": 16.0,
+        "po_unit_price": 12.4,
+        "po_value": 198.4,
+        "order_date": "2026-09-03",
+        "expected_delivery_date": "2026-09-24",
+        "invoices_already": 0
+       },
+       {
+        "po_number": "PO-2026-1112",
+        "part_name": "Terminal Block, 12-Position, 30A",
+        "ordered_qty": 50.0,
+        "po_unit_price": 6.1,
+        "po_value": 305.0,
+        "order_date": "2026-09-03",
+        "expected_delivery_date": "2026-09-24",
+        "invoices_already": 0
+       }
+      ]
+     }
+    },
+    {
+     "tool": "lookup_po",
+     "args": {
+      "po_number": "PO-2026-1105"
+     },
+     "result": {
+      "po_number": "PO-2026-1105",
+      "supplier_id": "V-2004",
+      "supplier_name": "Northgate Electrical Components",
+      "component_id": "P-304",
+      "part_name": "Motor Run Capacitor 45uF 440VAC",
+      "unit_of_measure": "EA",
+      "ordered_qty": 16.0,
+      "po_unit_price": 12.4,
+      "order_date": "2026-09-03",
+      "expected_delivery_date": "2026-09-24"
+     }
+    }
+   ],
+   "line_to_po": {
+    "1": "PO-2026-1105"
+   }
+  },
+  "decide": {
+   "decision": "confirm_match",
+   "payable": 198.4,
+   "invoice_total": 198.4,
+   "auto_release": false,
+   "approver": "AP specialist",
+   "email_needed": false,
+   "findings": [
+    {
+     "code": "po_reference_missing",
+     "severity": "warning",
+     "detail": "the invoice did not state a valid purchase order; the match below was inferred from supplier, quantity and price and needs a person to confirm"
+    }
+   ],
+   "lines": [
+    {
+     "line": 1,
+     "po_number": "PO-2026-1105",
+     "invoiced_qty": 16.0,
+     "invoiced_unit_price": 12.4,
+     "po_unit_price": 12.4,
+     "ordered_qty": 16.0,
+     "received_qty": 16.0,
+     "pay_qty": 16.0,
+     "pay_unit_price": 12.4,
+     "pay_amount": 198.4
+    }
+   ],
+   "flags": [
+    "confirm_match",
+    "po_matched_by_inference",
+    "po_reference_missing",
+    "supplier_from_po",
+    "supplier_misread"
+   ]
+  }
+ },
+ "resolution": {
+  "decision": "confirm_match",
+  "payable": 198.4,
+  "auto_release": false,
+  "approver": "AP specialist",
+  "summary": "NEC-2026-5512 from Northgate Electrical Components for 198.40 against PO-2026-1105: confirm match, pay 198.40, approver: AP specialist"
+ },
+ "model_usage": {
+  "calls": 5,
+  "seconds": 138.9,
+  "prompt_tokens": 5744,
+  "completion_tokens": 2213,
+  "reasoning_tokens": 1829,
+  "stages": [
+   "extract#1",
+   "resolve#1",
+   "resolve#2",
+   "resolve#3",
+   "resolve#4"
+  ]
+ },
+ "seconds": 139.3
+}

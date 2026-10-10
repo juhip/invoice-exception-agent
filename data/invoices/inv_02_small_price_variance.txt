@@ -1,0 +1,17 @@
+Harbor Fastener Supply
+Invoice
+
+Bill To                              Invoice #    HFS-20931
+Ridgeline Fabrication                Date         09/26/2026
+Accounts Payable                     Due          10/26/2026
+                                     Your PO      PO-2026-1102
+
+Line  Part No.   Description                           Quantity  Price     Extended
+1     P-301      Hex Cap Screw M10x40, zinc, box/100   40 bx     $18.50    $740.00
+
+                                                       Subtotal          $740.00
+                                                       Shipping            $0.00
+                                                       Tax (0%)            $0.00
+                                                       Balance Due       $740.00
+
+Note: list price adjusted 1.6% effective Sep 1 per our price letter.

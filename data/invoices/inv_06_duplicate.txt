@@ -1,0 +1,17 @@
+FENWICK ABRASIVES
+Toledo, Ohio
+
+INVOICE                    Number: FA-55190
+                           Date:   2026-09-18
+                           Terms:  2% 10 Net 30
+Sold To: Ridgeline Fabrication
+PO:      PO-2026-1106
+
+Qty      Description                                    Unit     Amount
+200 ea   Flap Disc 4.5" 60 grit zirconia (P-307)        3.15     630.00
+
+                                       Merchandise           630.00
+                                       Freight                 0.00
+                                       Total                 630.00
+
+** SECOND NOTICE - this invoice remains open on our ledger **

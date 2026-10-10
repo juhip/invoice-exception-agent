@@ -1,0 +1,150 @@
+{
+ "run_id": "20261008-160808_inv_07_freight_over_cap",
+ "source": "data/invoices/inv_07_freight_over_cap.txt",
+ "model": "lfm2.5-2.6b",
+ "stages": {
+  "intake": {
+   "source": "inv_07_freight_over_cap.txt",
+   "format": "text",
+   "chars": 759,
+   "po_refs_found_by_code": [
+    "PO-2026-1107"
+   ],
+   "injection_phrases": [],
+   "remittance_change_phrases": []
+  },
+  "extract": {
+   "attempts": 1,
+   "repairs": [
+    "line 1: model read 2 x 60; the printed amount 2460.00 = 60 x 41.00, which the invoice also prints; corrected by code"
+   ],
+   "error": null,
+   "invoice": {
+    "invoice_number": "OSS-71840",
+    "supplier_name": "Orion Sensor Systems, LLC",
+    "invoice_date": "2026-10-01",
+    "po_references": [
+     "PO-2026-1107"
+    ],
+    "lines": [
+     {
+      "line": 1,
+      "part_ref": "P-306",
+      "description": "Pressure Transducer 0-200 PSI 4-20mA",
+      "quantity": 60.0,
+      "unit": null,
+      "unit_price": 41.0,
+      "extended": 2460.0
+     }
+    ],
+    "subtotal": 2460.0,
+    "freight": 295.0,
+    "tax": 0.0,
+    "total": 2755.0,
+    "currency": "USD",
+    "payment_instructions": null,
+    "text_addressed_to_processor": null,
+    "notes": "Freight billed at actual carrier cost (overnight, per customer request on 9/28)."
+   }
+  },
+  "resolve": {
+   "supplier": "Orion Sensor Systems, LLC",
+   "purchase_orders": [
+    "PO-2026-1107"
+   ],
+   "how": [
+    "supplier matched by name (1.00): Orion Sensor Systems, LLC",
+    "PO-2026-1107 found from the reference on the invoice",
+    "line 1 matched by part number P-306"
+   ],
+   "flags": [],
+   "model_tool_calls": [],
+   "line_to_po": {
+    "1": "PO-2026-1107"
+   }
+  },
+  "decide": {
+   "decision": "dispute_freight",
+   "payable": 2460.0,
+   "invoice_total": 2755.0,
+   "auto_release": false,
+   "approver": "AP specialist",
+   "email_needed": true,
+   "findings": [
+    {
+     "code": "freight_over_cap",
+     "severity": "critical",
+     "detail": "freight 295.00 exceeds the allowance of 123.00 (larger of 5.0% of goods or $100.00) and is not on the purchase order; pay the goods and dispute the freight"
+    }
+   ],
+   "lines": [
+    {
+     "line": 1,
+     "po_number": "PO-2026-1107",
+     "invoiced_qty": 60.0,
+     "invoiced_unit_price": 41.0,
+     "po_unit_price": 41.0,
+     "ordered_qty": 60.0,
+     "received_qty": 60.0,
+     "pay_qty": 60.0,
+     "pay_unit_price": 41.0,
+     "pay_amount": 2460.0
+    }
+   ],
+   "flags": [
+    "dispute_freight"
+   ]
+  },
+  "draft": {
+   "facts": {
+    "invoice_number": "OSS-71840",
+    "invoice_date": "2026-10-01",
+    "invoice_total": 2755.0,
+    "supplier": "Orion Sensor Systems, LLC",
+    "purchase_orders": [
+     "PO-2026-1107"
+    ],
+    "problems": [
+     "freight 295.00 exceeds the allowance of 123.00 (larger of 5.0% of goods or $100.00) and is not on the purchase order; pay the goods and dispute the freight"
+    ],
+    "we_will": "pay for the goods and ask for the freight charge to be removed or justified",
+    "amount_we_will_pay": 2460.0,
+    "amounts": [
+     0.0,
+     41.0,
+     100.0,
+     123.0,
+     295.0,
+     2460.0,
+     2755.0
+    ],
+    "quantities": [
+     60.0
+    ]
+   },
+   "email": "Dear Orion Sensor Systems, LLC,\n\nWe have reviewed invoice OSS-71840 dated 2026-10-01 and identified a discrepancy regarding freight charges. The freight amount of $295.00 exceeds our allowance of $123.00 (the larger of 5% of goods or $100.00) and is not itemized on purchase order PO-2026-1107. As discussed, we will pay for the goods totaling $2460.00 while requesting that the freight charge be removed or justified. Please let us know how you would like to proceed with this adjustment.\n\nThank you for your attention to this matter.\n\nRidgeline Fabrication Accounts Payable",
+   "written_by": "model",
+   "model_rejected": null
+  }
+ },
+ "resolution": {
+  "decision": "dispute_freight",
+  "payable": 2460.0,
+  "auto_release": false,
+  "approver": "AP specialist",
+  "summary": "OSS-71840 from Orion Sensor Systems, LLC for 2755.00 against PO-2026-1107: dispute freight, pay 2460.00, approver: AP specialist"
+ },
+ "model_usage": {
+  "calls": 3,
+  "seconds": 174.1,
+  "prompt_tokens": 1524,
+  "completion_tokens": 3193,
+  "reasoning_tokens": 2658,
+  "stages": [
+   "extract#1",
+   "draft_email#1",
+   "draft_email#2"
+  ]
+ },
+ "seconds": 174.2
+}

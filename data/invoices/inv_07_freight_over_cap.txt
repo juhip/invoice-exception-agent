@@ -1,0 +1,15 @@
+Orion Sensor Systems, LLC                                  TAX INVOICE
+900 Research Blvd, Columbus OH 43219
+
+Invoice: OSS-71840           Date: 2026-10-01        PO: PO-2026-1107
+Bill to: Ridgeline Fabrication  Terms: Net 45
+
+ #  SKU       Description                            Qty   Unit Price   Total
+ 1  P-306     Pressure Transducer 0-200 PSI 4-20mA    60      41.00    2,460.00
+
+                                        Goods subtotal          2,460.00
+                                        Expedited freight         295.00
+                                        Tax                         0.00
+                                        AMOUNT DUE              2,755.00
+
+Freight billed at actual carrier cost (overnight, per customer request on 9/28).

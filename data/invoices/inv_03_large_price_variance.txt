@@ -1,0 +1,19 @@
+TAMARACK STEEL SERVICE
+4100 Rail Yard Rd, Gary, IN 46406  |  ar@tamaracksteel.com
+
+                                                    INVOICE
+Invoice No.:   TSS-118204               Invoice Date:  2026-09-29
+Customer:      Ridgeline Fabrication    Terms:         Net 30
+Customer PO:   PO-2026-1103             Ship Date:     2026-09-28
+
+-------------------------------------------------------------------
+ Item   Description                        Qty  Unit   Unit Price    Amount
+-------------------------------------------------------------------
+ P-305  HR Plate 3/8" x 48" x 96" A36       18   SHT      233.20     4197.60
+-------------------------------------------------------------------
+                                                 Subtotal:       4197.60
+                                                 Freight:           0.00
+                                                 Sales Tax:         0.00
+                                                 TOTAL DUE:  USD 4197.60
+
+Remit to: Tamarack Steel Service, PO Box 30, Gary IN 46401

@@ -1,0 +1,135 @@
+{
+ "run_id": "20261008-161504_inv_10_multi_po_no_part_refs",
+ "source": "data/invoices/inv_10_multi_po_no_part_refs.txt",
+ "model": "lfm2.5-2.6b",
+ "stages": {
+  "intake": {
+   "source": "inv_10_multi_po_no_part_refs.txt",
+   "format": "text",
+   "chars": 824,
+   "po_refs_found_by_code": [
+    "PO-2026-1110",
+    "PO-2026-1111"
+   ],
+   "injection_phrases": [],
+   "remittance_change_phrases": []
+  },
+  "extract": {
+   "attempts": 1,
+   "repairs": [],
+   "error": null,
+   "invoice": {
+    "invoice_number": "GG-2026-3307",
+    "supplier_name": "Granite Gasket Co.",
+    "invoice_date": "2026-10-05",
+    "po_references": [
+     "PO-2026-1110",
+     "PO-2026-1111"
+    ],
+    "lines": [
+     {
+      "line": 1,
+      "part_ref": "CL150",
+      "description": "SW gskt 4\" CL150 316SS/flex graphate",
+      "quantity": 150.0,
+      "unit": "pcs",
+      "unit_price": 3.9,
+      "extended": 585.0
+     },
+     {
+      "line": 2,
+      "part_ref": null,
+      "description": "O-ring assortment NBR-70, 382 pc case",
+      "quantity": 8.0,
+      "unit": "cs",
+      "unit_price": 27.5,
+      "extended": 220.0
+     }
+    ],
+    "subtotal": 805.0,
+    "freight": 0.0,
+    "tax": 0.0,
+    "total": 805.0,
+    "currency": "USD",
+    "payment_instructions": null,
+    "text_addressed_to_processor": null,
+    "notes": null
+   }
+  },
+  "resolve": {
+   "supplier": "Granite Gasket Co.",
+   "purchase_orders": [
+    "PO-2026-1110",
+    "PO-2026-1111"
+   ],
+   "how": [
+    "supplier matched by name (1.00): Granite Gasket Co.",
+    "PO-2026-1110 found from the reference on the invoice",
+    "PO-2026-1111 found from the reference on the invoice",
+    "line 1 matched by the model to PO-2026-1110",
+    "line 2 matched by the model to PO-2026-1111"
+   ],
+   "flags": [],
+   "model_tool_calls": [],
+   "line_to_po": {
+    "1": "PO-2026-1110",
+    "2": "PO-2026-1111"
+   }
+  },
+  "decide": {
+   "decision": "approve",
+   "payable": 805.0,
+   "invoice_total": 805.0,
+   "auto_release": true,
+   "approver": null,
+   "email_needed": false,
+   "findings": [],
+   "lines": [
+    {
+     "line": 1,
+     "po_number": "PO-2026-1110",
+     "invoiced_qty": 150.0,
+     "invoiced_unit_price": 3.9,
+     "po_unit_price": 3.9,
+     "ordered_qty": 150.0,
+     "received_qty": 150.0,
+     "pay_qty": 150.0,
+     "pay_unit_price": 3.9,
+     "pay_amount": 585.0
+    },
+    {
+     "line": 2,
+     "po_number": "PO-2026-1111",
+     "invoiced_qty": 8.0,
+     "invoiced_unit_price": 27.5,
+     "po_unit_price": 27.5,
+     "ordered_qty": 8.0,
+     "received_qty": 8.0,
+     "pay_qty": 8.0,
+     "pay_unit_price": 27.5,
+     "pay_amount": 220.0
+    }
+   ],
+   "flags": []
+  }
+ },
+ "resolution": {
+  "decision": "approve",
+  "payable": 805.0,
+  "auto_release": true,
+  "approver": null,
+  "summary": "GG-2026-3307 from Granite Gasket Co. for 805.00 against PO-2026-1110, PO-2026-1111: approve, pay 805.00 (auto-released)"
+ },
+ "model_usage": {
+  "calls": 2,
+  "seconds": 170.0,
+  "prompt_tokens": 1061,
+  "completion_tokens": 2978,
+  "reasoning_tokens": 2608,
+  "stages": [
+   "extract#1",
+   "match_lines#1"
+  ]
+ },
+ "seconds": 170.3
+}

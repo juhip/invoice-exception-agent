@@ -1,0 +1,144 @@
+{
+ "run_id": "20261008-160538_inv_06_duplicate",
+ "source": "data/invoices/inv_06_duplicate.txt",
+ "model": "lfm2.5-2.6b",
+ "stages": {
+  "intake": {
+   "source": "inv_06_duplicate.txt",
+   "format": "text",
+   "chars": 636,
+   "po_refs_found_by_code": [
+    "PO-2026-1106"
+   ],
+   "injection_phrases": [],
+   "remittance_change_phrases": []
+  },
+  "extract": {
+   "attempts": 1,
+   "repairs": [],
+   "error": null,
+   "invoice": {
+    "invoice_number": "FA-55190",
+    "supplier_name": "FENWICK ABRASIVES",
+    "invoice_date": "2026-09-18",
+    "po_references": [
+     "PO-2026-1106"
+    ],
+    "lines": [
+     {
+      "line": 1,
+      "part_ref": "P-307",
+      "description": "Flap Disc 4.5\" 60 grit zirconia",
+      "quantity": 200.0,
+      "unit": "ea",
+      "unit_price": 3.15,
+      "extended": 630.0
+     }
+    ],
+    "subtotal": 630.0,
+    "freight": 0.0,
+    "tax": null,
+    "total": 630.0,
+    "currency": "USD",
+    "payment_instructions": null,
+    "text_addressed_to_processor": null,
+    "notes": "Second notice - this invoice remains open on our ledger"
+   }
+  },
+  "resolve": {
+   "supplier": "Fenwick Abrasives",
+   "purchase_orders": [
+    "PO-2026-1106"
+   ],
+   "how": [
+    "supplier matched by name (1.00): Fenwick Abrasives",
+    "PO-2026-1106 found from the reference on the invoice",
+    "line 1 matched by part number P-307"
+   ],
+   "flags": [],
+   "model_tool_calls": [],
+   "line_to_po": {
+    "1": "PO-2026-1106"
+   }
+  },
+  "decide": {
+   "decision": "reject_duplicate",
+   "payable": 0.0,
+   "invoice_total": 630.0,
+   "auto_release": false,
+   "approver": "AP specialist",
+   "email_needed": true,
+   "findings": [
+    {
+     "code": "duplicate_invoice",
+     "severity": "critical",
+     "detail": "invoice FA-55190 was already processed on 2026-09-18 for 630.00 (paid) against PO-2026-1106"
+    }
+   ],
+   "lines": [
+    {
+     "line": 1,
+     "po_number": "PO-2026-1106",
+     "invoiced_qty": 200.0,
+     "invoiced_unit_price": 3.15,
+     "po_unit_price": 3.15,
+     "ordered_qty": 200.0,
+     "received_qty": 200.0,
+     "pay_qty": 200.0,
+     "pay_unit_price": 3.15,
+     "pay_amount": 630.0
+    }
+   ],
+   "flags": [
+    "reject_duplicate"
+   ]
+  },
+  "draft": {
+   "facts": {
+    "invoice_number": "FA-55190",
+    "invoice_date": "2026-09-18",
+    "invoice_total": 630.0,
+    "supplier": "Fenwick Abrasives",
+    "purchase_orders": [
+     "PO-2026-1106"
+    ],
+    "problems": [
+     "invoice FA-55190 was already processed on 2026-09-18 for 630.00 (paid) against PO-2026-1106"
+    ],
+    "we_will": "not pay this invoice because it was already paid",
+    "amount_we_will_pay": 0.0,
+    "amounts": [
+     0.0,
+     3.15,
+     630.0
+    ],
+    "quantities": [
+     200.0
+    ]
+   },
+   "email": "Dear Fenwick Abrasives, I am writing regarding invoice FA-55190 dated 2026-09-18 for a total of $630.00, which was already processed and paid against purchase order PO-2026-1106 on that date. Since this invoice has been fully settled, we will not process payment from our side at this time. Our records indicate the full balance due is $0.00. Please let us know if you have any questions about this matter. Thank you for your understanding. Ridgeline Fabrication Accounts Payable",
+   "written_by": "model",
+   "model_rejected": null
+  }
+ },
+ "resolution": {
+  "decision": "reject_duplicate",
+  "payable": 0.0,
+  "auto_release": false,
+  "approver": "AP specialist",
+  "summary": "FA-55190 from Fenwick Abrasives for 630.00 against PO-2026-1106: reject duplicate, pay 0.00, approver: AP specialist"
+ },
+ "model_usage": {
+  "calls": 3,
+  "seconds": 150.5,
+  "prompt_tokens": 1382,
+  "completion_tokens": 2843,
+  "reasoning_tokens": 2375,
+  "stages": [
+   "extract#1",
+   "draft_email#1",
+   "draft_email#2"
+  ]
+ },
+ "seconds": 150.5
+}

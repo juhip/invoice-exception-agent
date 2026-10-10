@@ -1,0 +1,24 @@
+{
+  "_about": "Ridgeline Fabrication accounts-payable matching policy, as settings. Every number here is a business decision the accounts payable manager owns, not something the model decides.",
+  "company": "Ridgeline Fabrication",
+  "price_tolerance": {
+    "percent": 2.0,
+    "absolute": 25.0,
+    "_note": "a line's unit price may differ from the PO by up to the larger of these before it is a dispute"
+  },
+  "quantity_rule": "pay_received",
+  "freight": {
+    "max_percent_of_goods": 5.0,
+    "max_absolute": 100.0,
+    "_note": "freight not on the PO is allowed up to the larger of these; above it is disputed"
+  },
+  "tax_rate_max_percent": 10.0,
+  "auto_approve_limit": 5000.0,
+  "approvers": {
+    "default": "AP specialist",
+    "over_limit": "AP manager",
+    "fraud": "AP manager and Treasury"
+  },
+  "remittance_change_is_fraud_hold": true,
+  "match_without_po_reference_needs_confirmation": true
+}

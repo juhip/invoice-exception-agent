@@ -1,0 +1,113 @@
+{
+ "run_id": "20261008-155430_inv_02_small_price_variance",
+ "source": "data/invoices/inv_02_small_price_variance.txt",
+ "model": "lfm2.5-2.6b",
+ "stages": {
+  "intake": {
+   "source": "inv_02_small_price_variance.txt",
+   "format": "text",
+   "chars": 840,
+   "po_refs_found_by_code": [
+    "PO-2026-1102"
+   ],
+   "injection_phrases": [],
+   "remittance_change_phrases": []
+  },
+  "extract": {
+   "attempts": 1,
+   "repairs": [],
+   "error": null,
+   "invoice": {
+    "invoice_number": "HFS-20931",
+    "supplier_name": "Harbor Fastener Supply",
+    "invoice_date": "2026-09-26",
+    "po_references": [
+     "PO-2026-1102"
+    ],
+    "lines": [
+     {
+      "line": 1,
+      "part_ref": "P-301",
+      "description": "Hex Cap Screw M10x40, zinc, box/100",
+      "quantity": 40.0,
+      "unit": "bx",
+      "unit_price": 18.5,
+      "extended": 740.0
+     }
+    ],
+    "subtotal": 740.0,
+    "freight": 0.0,
+    "tax": 0.0,
+    "total": 740.0,
+    "currency": "USD",
+    "payment_instructions": null,
+    "text_addressed_to_processor": null,
+    "notes": "list price adjusted 1.6% effective Sep 1 per our price letter."
+   }
+  },
+  "resolve": {
+   "supplier": "Harbor Fastener Supply",
+   "purchase_orders": [
+    "PO-2026-1102"
+   ],
+   "how": [
+    "supplier matched by name (1.00): Harbor Fastener Supply",
+    "PO-2026-1102 found from the reference on the invoice",
+    "line 1 matched by part number P-301"
+   ],
+   "flags": [],
+   "model_tool_calls": [],
+   "line_to_po": {
+    "1": "PO-2026-1102"
+   }
+  },
+  "decide": {
+   "decision": "approve",
+   "payable": 740.0,
+   "invoice_total": 740.0,
+   "auto_release": true,
+   "approver": null,
+   "email_needed": false,
+   "findings": [
+    {
+     "code": "price_within_tolerance",
+     "severity": "info",
+     "detail": "line 1: unit price 18.50 vs PO 18.20 (+1.6%), within tolerance"
+    }
+   ],
+   "lines": [
+    {
+     "line": 1,
+     "po_number": "PO-2026-1102",
+     "invoiced_qty": 40.0,
+     "invoiced_unit_price": 18.5,
+     "po_unit_price": 18.2,
+     "ordered_qty": 40.0,
+     "received_qty": 40.0,
+     "pay_qty": 40.0,
+     "pay_unit_price": 18.5,
+     "pay_amount": 740.0
+    }
+   ],
+   "flags": []
+  }
+ },
+ "resolution": {
+  "decision": "approve",
+  "payable": 740.0,
+  "auto_release": true,
+  "approver": null,
+  "summary": "HFS-20931 from Harbor Fastener Supply for 740.00 against PO-2026-1102: approve, pay 740.00 (auto-released)"
+ },
+ "model_usage": {
+  "calls": 1,
+  "seconds": 60.7,
+  "prompt_tokens": 602,
+  "completion_tokens": 1040,
+  "reasoning_tokens": 805,
+  "stages": [
+   "extract#1"
+  ]
+ },
+ "seconds": 60.7
+}

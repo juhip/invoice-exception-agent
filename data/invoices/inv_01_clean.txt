@@ -1,0 +1,20 @@
+KESTREL BEARINGS INC.
+2240 Commerce Park Dr, Fort Wayne, IN 46825  |  billing@kestrelbearings.com
+
+                                                    INVOICE
+Invoice No.:   KB-30412                 Invoice Date:  2026-09-24
+Customer:      Ridgeline Fabrication    Terms:         Net 30
+Customer PO:   PO-2026-1101             Ship Date:     2026-09-23
+
+-------------------------------------------------------------------
+ Item   Description                     Qty   Unit    Unit Price   Amount
+-------------------------------------------------------------------
+ P-302  Ball Bearing 6204-2RS          120    EA        4.85       582.00
+-------------------------------------------------------------------
+                                                 Subtotal:        582.00
+                                                 Freight:           0.00
+                                                 Sales Tax:         0.00
+                                                 TOTAL DUE:   USD 582.00
+
+Remit to: Kestrel Bearings Inc., PO Box 1187, Fort Wayne IN 46801
+Thank you for your business.

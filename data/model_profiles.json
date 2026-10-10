@@ -1,0 +1,25 @@
+{
+  "_about": "Where the model plugs in. LFM2.5-2.6B via LM Studio by default; any OpenAI-compatible server works. 'frontier' is the escalation target for invoices the small model cannot read reliably (not called in this demo).",
+  "active_profile": "lmstudio",
+  "profiles": {
+    "lmstudio": {
+      "base_url": "http://localhost:1234/v1",
+      "model": "lfm2.5-2.6b",
+      "max_tokens": 4000
+    },
+    "llamacpp": {
+      "base_url": "http://localhost:8081/v1",
+      "model": "lfm2.5-2.6b"
+    },
+    "ollama": {
+      "base_url": "http://localhost:11434/v1",
+      "model": "lfm2.5"
+    },
+    "frontier": {
+      "base_url": "https://api.openai.com/v1",
+      "model": "gpt-5",
+      "api_key_env": "OPENAI_API_KEY",
+      "notes": "escalation target; never sees an invoice unless the local model fails validation twice"
+    }
+  }
+}
