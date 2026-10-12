@@ -300,7 +300,7 @@ const KNOBS = [
  ["limit","Auto-approve limit",0,10000,250,v=>money0(v)]];
 function renderPolicy(el){
   el.innerHTML = `<div class="head"><h2>Autonomy settings: what the accounts payable manager controls</h2>
-  <p class="lede">The accounts payable manager sets these rules, not the model. Move a setting and the ten invoices are re-decided by the agent's real decision code.</p><div class="sowhat"><b>So what</b><span>As built, 3 of 10 invoices pay without a person looking, all within tolerance. Try the Loose preset to see how many more release, and how much is paid above the purchase order, if the manager trades control for speed.</span></div>
+  <p class="lede">The accounts payable manager sets these rules, not the model. Move a setting and the ten invoices are re-decided by the agent's real decision code.</p><div class="sowhat"><b>Takeaway</b><span>As built, 3 of 10 invoices pay without a person looking, all within tolerance. Try the Loose preset to see how many more release, and how much is paid above the purchase order, if the manager trades control for speed.</span></div>
   ${srcLine("Measured","re-runs the stage-4 rules on the extracted numbers from the ten graded runs; at the built settings it reproduces all ten recorded decisions")}</div>
   <div class="row"><span class="small muted">Presets</span><button class="btn" data-p="strict">Strict</button><button class="btn" data-p="built">As built</button><button class="btn" data-p="loose">Loose</button></div>
   <div class="card"><div class="grid g3" id="knobs"></div>
@@ -338,7 +338,7 @@ function renderPolicy(el){
 let REL = {n:6, p:95, m:2, c:90};
 function renderRel(el){
   el.innerHTML = `<div class="head"><h2>Why reliability compounds, and what the design does about it</h2>
-  <p class="lede">If each of six model steps is right 95% of the time, the whole chain is right only 74% of the time. The fix: fewer model steps, a code check on each, and no model in the decision.</p><div class="sowhat"><b>So what</b><span>Baseline: a six-step all-model chain gets about 265 of every 1,000 invoices wrong. Under the same simple assumptions the built design gets about 10 silently wrong and sends about 88 to a person to check.</span></div>
+  <p class="lede">If each of six model steps is right 95% of the time, the whole chain is right only 74% of the time. The fix: fewer model steps, a code check on each, and no model in the decision.</p><div class="sowhat"><b>Takeaway</b><span>Baseline: a six-step all-model chain gets about 265 of every 1,000 invoices wrong. Under the same simple assumptions the built design gets about 10 silently wrong and sends about 88 to a person to check.</span></div>
   ${srcLine("Illustrative","a simple model: errors are independent and a check catches a fixed share of them. The measured evidence is in the box below")}</div>
   <div class="card"><div class="grid g2">
    <div class="ctl"><label for="r_p">Chance a single step is right<output id="o_p"></output></label><input type="range" id="r_p" min="80" max="99.9" step="0.1"></div>
@@ -399,7 +399,7 @@ function attackResult(a){
 }
 function renderAttacks(el){
   el.innerHTML = `<div class="head"><h2>Untrusted input: which defenses stop which attacks</h2>
-  <p class="lede">Invoices are written by strangers, and some will try to instruct the agent. Turn defenses off one at a time to see which attacks get through.</p><div class="sowhat"><b>So what</b><span>With every defense on, invoice 9 (an injected instruction plus a changed bank account) went to a fraud hold. The lab shows which single defense each attack depends on, so no one defense is a single point of failure.</span></div>
+  <p class="lede">Invoices are written by strangers, and some will try to instruct the agent. Turn defenses off one at a time to see which attacks get through.</p><div class="sowhat"><b>Takeaway</b><span>With every defense on, invoice 9 (an injected instruction plus a changed bank account) went to a fraud hold. The lab shows which single defense each attack depends on, so no one defense is a single point of failure.</span></div>
   ${srcLine("From the design","the mapping from layers to attacks is reasoning from the documents. Only invoice 9 was run")}</div>
   <div class="grid g2"><div class="card"><h3>Defenses</h3><div style="display:flex;flex-direction:column;gap:10px;margin-top:12px" id="layers"></div>
    <div class="row" style="margin-top:14px"><button class="btn" id="allOn">All on</button><button class="btn" id="promptOnly">Prompt only</button></div></div>
@@ -422,7 +422,7 @@ function renderEvidence(el){
   const redo = DATA.map(r=>r.reasoningTokens/Math.max(r.completionTokens,1));
   const med = a => { const s=[...a].sort((x,y)=>x-y), m=s.length>>1; return s.length%2 ? s[m] : (s[m-1]+s[m])/2; };
   el.innerHTML = `<div class="head"><h2>Results: three runs, and what failed</h2>
-  <p class="lede">Three full runs: 8, then 9, then 10 out of 10. The last two used a dataset rebuilt from scratch. Every failure sent the invoice to a person; none paid a wrong amount.</p><div class="sowhat"><b>So what</b><span>Against the 74% a naive six-step chain would be expected to reach, the built design got 10 of 10 with no wrong payments. The cost is time: a median of 157 seconds per invoice on the laptop, most of it the model's hidden reasoning. Ten invoices show the design holds; they are not a production accuracy rate.</span></div>
+  <p class="lede">Three full runs: 8, then 9, then 10 out of 10. The last two used a dataset rebuilt from scratch. Every failure sent the invoice to a person; none paid a wrong amount.</p><div class="sowhat"><b>Takeaway</b><span>Against the 74% a naive six-step chain would be expected to reach, the built design got 10 of 10 with no wrong payments. The cost is time: a median of 157 seconds per invoice on the laptop, most of it the model's hidden reasoning. Ten invoices show the design holds; they are not a production accuracy rate.</span></div>
   ${srcLine("Measured","runs/evals packets from the latest run, one repetition per invoice")}</div>
   <div class="tiles">
    <div class="tile"><span class="v">8 → 9 → 10</span><span class="l">correct of 10, across three full runs</span></div>
@@ -475,7 +475,7 @@ function renderCustomer(el){
    ["6","Write to the supplier","Drafted and fact-checked; the specialist sends it","agent"],
    ["7","Route for approval over the limit, or to Treasury on a bank change","Routed automatically with the packet","agent"]];
   el.innerHTML = `<div class="head"><h2>Customer and problem</h2>
-  <p class="lede">A mid-market manufacturer pays most supplier invoices automatically. About one in four fails the ERP's match and waits in a queue for a person. That queue is the problem.</p><div class="sowhat"><b>So what</b><span>Today a specialist spends about 8 minutes on each exception, about 133 hours a month. With the agent they spend about 2 minutes checking a prepared packet, about 33 hours. The bigger win is money: every exception is checked for duplicates and over-billing, which a busy queue misses.</span></div>
+  <p class="lede">A mid-market manufacturer pays most supplier invoices automatically. About one in four fails the ERP's match and waits in a queue for a person. That queue is the problem.</p><div class="sowhat"><b>Takeaway</b><span>Today a specialist spends about 8 minutes on each exception, about 133 hours a month. With the agent they spend about 2 minutes checking a prepared packet, about 33 hours. The bigger win is money: every exception is checked for duplicates and over-billing, which a busy queue misses.</span></div>
   ${srcLine("Assumption","demo sizing; replace with the customer's numbers")}</div>
   <div class="grid g2">
    <div class="card"><h3>Who uses it</h3><ul class="tight small">
@@ -562,7 +562,7 @@ function callCard(c){
 }
 function renderRun(el){
   el.innerHTML = `<div class="head"><h2>The solution: run an invoice</h2>
-  <p class="lede">Pick one of the ten test invoices and replay its real run: what came in, what each stage did, every model call, and the packet a person approves.</p><div class="sowhat"><b>So what</b><span>Without the agent, a specialist starts each invoice from scratch. With it, they open a packet that already has the purchase order, the variance, the decision and a drafted supplier email, and spend about 2 minutes checking it instead of 8.</span></div>
+  <p class="lede">Pick one of the ten test invoices and replay its real run: what came in, what each stage did, every model call, and the packet a person approves.</p><div class="sowhat"><b>Takeaway</b><span>Without the agent, a specialist starts each invoice from scratch. With it, they open a packet that already has the purchase order, the variance, the decision and a drafted supplier email, and spend about 2 minutes checking it instead of 8.</span></div>
   ${srcLine("Measured","real packets from the latest run")}</div>
   <div class="pick" id="runPick">${REPLAY.map((r,i)=>`<button class="opt" data-i="${i}"><span class="small muted mono">${esc(r.file)}</span><b>${esc(r.label)}</b>${decTag(r.decide.decision)}</button>`).join("")}</div>
   <div class="grid g2"><div class="card"><div class="row" style="justify-content:space-between"><h3>The invoice as it arrived</h3><span class="tag t-plain" id="runFmt"></span></div><pre class="raw" id="runRaw" style="max-height:420px"></pre></div>
@@ -629,7 +629,7 @@ function renderChallenges(el){
    ["Read-only tools; a person pays and sends", "Invoice text is written by strangers. An injected instruction or a changed bank account must not reach money.", "No straight-through processing for disputes: 3 of 10 invoices release alone at the built settings.", "Invoice 9 (injection plus bank change) went to a fraud hold."],
    ["A small local model, not a frontier API", "Invoices carry pricing and bank details, and the volume is every invoice, not a sample.", "Slower (12 to 15 tokens a second in the runs) and weaker on wide tables. Hard cases escalate to a frontier model by config.", "Runs end to end on an 8 GB laptop at about 1.9 GB of model memory."]];
   el.innerHTML = `<div class="head"><h2>Decisions and trade-offs</h2>
-  <p class="lede">Five choices shaped the build. Each one answers a specific risk, and each costs something.</p><div class="sowhat"><b>So what</b><span>The common thread: every decision gives up some speed or automation in exchange for a guarantee that a model error never becomes a payment.</span></div>
+  <p class="lede">Five choices shaped the build. Each one answers a specific risk, and each costs something.</p><div class="sowhat"><b>Takeaway</b><span>The common thread: every decision gives up some speed or automation in exchange for a guarantee that a model error never becomes a payment.</span></div>
   ${srcLine("From the design","ARCHITECTURE.md and the graded runs")}</div>
   <div class="tw"><table><thead><tr><th>Decision</th><th>Why</th><th>What it costs</th><th>Evidence</th></tr></thead><tbody>
   ${DEC.map(([d,w,c,e])=>`<tr><td><b>${d}</b></td><td>${w}</td><td>${c}</td><td>${e}</td></tr>`).join("")}
@@ -653,7 +653,7 @@ function renderChallenges(el){
 /* ---------- 7. the model ---------- */
 function renderPart1(el){
   el.innerHTML = `<div class="head"><h2>Model performance: LFM2.5-2.6B on an 8 GB laptop</h2>
-  <p class="lede">An Apple M2 laptop with 8 GB of memory, LM Studio, and the model quantized to 5 bits (Q5_K_M). Measured speed, wait time and memory.</p><div class="sowhat"><b>So what</b><span>Against the quoted 220 tokens a second, I measured 33 with a 4K context and about 10 with a 128K context. Invoices need under 3K tokens, so load at 4K. Memory stayed between 1.9 and 2.8 GB, so it runs beside other work on a basic laptop.</span></div>
+  <p class="lede">An Apple M2 laptop with 8 GB of memory, LM Studio, and the model quantized to 5 bits (Q5_K_M). Measured speed, wait time and memory.</p><div class="sowhat"><b>Takeaway</b><span>Against the quoted 220 tokens a second, I measured 33 with a 4K context and about 10 with a 128K context. Invoices need under 3K tokens, so load at 4K. Memory stayed between 1.9 and 2.8 GB, so it runs beside other work on a basic laptop.</span></div>
   ${srcLine("Measured","local benchmarks; one run per size, so treat shapes as indicative")}</div>
   <div class="grid g2"><div class="card"><h3>Generation speed by prompt size</h3><div id="c1"></div><div class="legend"><span style="--c:var(--code)">loaded at 4K context</span><span style="--c:var(--model)">loaded at 128K context</span></div></div>
   <div class="card"><h3>Time to first token</h3><div id="c2"></div><div class="small muted">Prefill is the long-context cost: 95K tokens took 459 s. Decode, by contrast, stayed near 10 tokens a second.</div></div></div>
@@ -690,7 +690,7 @@ function renderNext(el){
    ["The thinking can be turned off.","It ignores the instruction, so the token budget has to cover it."],
    ["A prompt instruction is a guardrail.","The code guard held where the prompt did not: the model named the buyer as supplier even when told not to."]];
   el.innerHTML = `<div class="head"><h2>Next steps: the real risks, and how I would retire them</h2>
-  <p class="lede">What still stands between ten test invoices and a live accounts payable queue, and how I would close each gap.</p><div class="sowhat"><b>So what</b><span>The first step with a real customer is four weeks of shadow mode: the agent proposes, specialists decide, and agreement is measured per supplier layout before anything pays without a person.</span></div>
+  <p class="lede">What still stands between ten test invoices and a live accounts payable queue, and how I would close each gap.</p><div class="sowhat"><b>Takeaway</b><span>The first step with a real customer is four weeks of shadow mode: the agent proposes, specialists decide, and agreement is measured per supplier layout before anything pays without a person.</span></div>
   ${srcLine("From the design","risks and plans from the design work; not yet tested on customer data")}</div>
   <div class="tw"><table><thead><tr><th>Risk</th><th>How I would retire it</th></tr></thead><tbody>
   ${risks.map(([r,h])=>`<tr><td><b>${r}</b></td><td>${h}</td></tr>`).join("")}
@@ -711,7 +711,7 @@ const ARCH = [
 function renderArch(el){
   const cell = (s,k,label) => `<div class="ac"><span class="al">${label}</span>${s[k]}</div>`;
   el.innerHTML = `<div class="head"><h2>Architecture: one exception, arrival to resolution</h2>
-  <p class="lede">Five stages from arrival to approval. The model only reads, searches and writes. Code makes every decision, and a person approves.</p><div class="sowhat"><b>So what</b><span>Compared with letting one model do everything, a model mistake here cannot turn into a wrong payment. The worst a bad model answer can do is send the invoice to a person.</span></div>
+  <p class="lede">Five stages from arrival to approval. The model only reads, searches and writes. Code makes every decision, and a person approves.</p><div class="sowhat"><b>Takeaway</b><span>Compared with letting one model do everything, a model mistake here cannot turn into a wrong payment. The worst a bad model answer can do is send the invoice to a person.</span></div>
   ${srcLine("From the design","ARCHITECTURE.md; the whole design on one page, then each stage below")}</div>
   <div class="row small"><span class="tag t-code">Code</span> deterministic and repeatable <span class="tag t-model">Model</span> LFM2.5-2.6B, every output validated</div>
   <figure class="card adiag"><svg viewBox="0 0 1100 460" role="img" aria-label="An untrusted invoice passes through intake, extract, resolve, decide and draft. The local LFM2.5-2.6B model is called only by extract, resolve and draft, never by decide. The ERP is read-only, the policy file feeds decide, and every failure routes to a person, as does every finished packet.">
