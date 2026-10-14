@@ -1,0 +1,58 @@
+{
+  "created_at": "2026-10-02T12:10:23.602556-07:00",
+  "model": "LFM2.5-2.6B Q5_K_M",
+  "runtime": "LM Studio",
+  "context_length": 4096,
+  "results": [
+    {
+      "label": "short",
+      "approximate_input_words": 40,
+      "elapsed_seconds": 4.7998,
+      "time_to_first_token_seconds": 0.6273,
+      "prompt_tokens": 97,
+      "completion_tokens": 140,
+      "reasoning_tokens": 132,
+      "output_tokens": 8,
+      "generation_tokens_per_second": 33.55,
+      "effective_prompt_tokens_per_second": 154.63,
+      "model_rss_before_mib": 1844.5,
+      "model_rss_after_mib": 1906.6,
+      "answer": "EMBER-104"
+    },
+    {
+      "label": "medium",
+      "approximate_input_words": 400,
+      "elapsed_seconds": 7.1845,
+      "time_to_first_token_seconds": 2.0823,
+      "prompt_tokens": 698,
+      "completion_tokens": 167,
+      "reasoning_tokens": 160,
+      "output_tokens": 7,
+      "generation_tokens_per_second": 32.73,
+      "effective_prompt_tokens_per_second": 335.2,
+      "model_rss_before_mib": 1906.6,
+      "model_rss_after_mib": 1910.9,
+      "answer": "VIOLET-731"
+    },
+    {
+      "label": "long",
+      "approximate_input_words": 1600,
+      "elapsed_seconds": 12.5791,
+      "time_to_first_token_seconds": 7.8106,
+      "prompt_tokens": 2693,
+      "completion_tokens": 155,
+      "reasoning_tokens": 148,
+      "output_tokens": 7,
+      "generation_tokens_per_second": 32.5,
+      "effective_prompt_tokens_per_second": 344.79,
+      "model_rss_before_mib": 1910.8,
+      "model_rss_after_mib": 1913.4,
+      "answer": "COPPER-592"
+    }
+  ],
+  "notes": [
+    "Time to first token includes local API and prompt-processing overhead.",
+    "Generation rate includes both hidden reasoning and visible answer tokens.",
+    "RSS is the resident memory of the local model worker process."
+  ]
+}

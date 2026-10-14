@@ -1,0 +1,9 @@
+[project]
+name = "lfm-part1"
+version = "0.1.0"
+description = "Hands-on exploration of LiquidAI LFM2.5-2.6B through LM Studio"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.32,<3",
+    "streamlit>=1.50,<2",
+]

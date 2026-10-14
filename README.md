@@ -72,6 +72,7 @@ Standard library only (pypdf is optional, for PDF invoices). Python 3.9 or later
 | `docs/ARCHITECTURE.md` | one page: input, output and failure handling per stage |
 | `explorer/index.html` | interactive page: replay each run, the architecture, policy controls, results, model benchmarks |
 | `runs/evals/` | the latest graded run: packet, approver summary and every model call per invoice |
+| `part1/` | the model on its own first: two local speed and memory runs (4K and 128K context) and two tool-call demos |
 
 ## Reused from earlier work
 
